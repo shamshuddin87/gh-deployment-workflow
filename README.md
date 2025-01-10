@@ -1,11 +1,14 @@
 # gh-deployment-workflow
 
-This repository demonstrates how to use GitHub Actions to deploy a simple HTML website to GitHub Pages.
+This repository contains a simple workflow for deploying static content to GitHub Pages.
 
-## Project Structure
-- `index.html`: The main HTML file for the website.
-- `.github/workflows/deploy.yml`: GitHub Actions workflow to deploy the site to GitHub Pages.
+## Project URL
 
-- # Project url
+You can access the project repository here: [https://github.com/shamshuddin87/gh-deployment-workflow](https://github.com/shamshuddin87/gh-deployment-workflow)
 
-  https://github.com/shamshuddin87/gh-deployment-workflow
+## How to Use
+
+1. Clone the repository.
+2. Set up GitHub Actions for deployment.
+3. Make changes to the `main` branch, and the workflow will automatically deploy your static content to GitHub Pages.
+
