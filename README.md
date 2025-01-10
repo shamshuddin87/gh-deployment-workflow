@@ -5,3 +5,7 @@ This repository demonstrates how to use GitHub Actions to deploy a simple HTML w
 ## Project Structure
 - `index.html`: The main HTML file for the website.
 - `.github/workflows/deploy.yml`: GitHub Actions workflow to deploy the site to GitHub Pages.
+
+- # Project url
+
+  https://github.com/shamshuddin87/gh-deployment-workflow
