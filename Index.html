@@ -1,11 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insta-safe</title>
-</head>
-<body>
-    <h1>Hello Insta-safe</h1>
-</body>
-</html>
+# Simple Workflow for Deploying Static Content to GitHub Pages
+
+This repository uses GitHub Actions to deploy static content to GitHub Pages automatically when changes are pushed to the `main` branch or when the workflow is manually triggered. The process includes checking out the repository, configuring GitHub Pages, uploading the static content, and deploying it to GitHub Pages.
+
+## Workflow Overview
+
+The workflow consists of a single job that deploys the contents of the repository to GitHub Pages. Here’s an overview of how the process works:
+
+1. **Trigger**: The workflow runs on:
+   - Every push to the `main` branch.
+   - Manual triggers from the Actions tab (via `workflow_dispatch`).
+   
+2. **Permissions**: The workflow grants the `GITHUB_TOKEN` specific permissions to read repository contents and write to GitHub Pages.
+
+3. **Concurrency**: Only one deployment is allowed at a time, and if another deployment is queued while one is in progress, the new deployment will wait until the current one finishes.
+
+4. **Steps**:
+   - **Checkout the repository**: Uses `actions/checkout@v4` to pull the latest code from the repository.
+   - **Set up GitHub Pages**: Uses `actions/configure-pages@v5` to configure GitHub Pages.
+   - **Upload the static content**: The `actions/upload-pages-artifact@v3` action uploads the repository’s contents to be deployed.
+   - **Deploy to GitHub Pages**: Finally, `actions/deploy-pages@v4` deploys the content to GitHub Pages.
+
+## Workflow File Explanation
+
+The following YAML file is used for the deployment workflow (`.github/workflows/deploy.yml`):
+
+```yaml
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
